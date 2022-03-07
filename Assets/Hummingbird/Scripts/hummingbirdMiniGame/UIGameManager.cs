@@ -13,7 +13,6 @@ public class UIGameManager : MonoBehaviour
     public HummingbirdAgent player;
     public HummingbirdAgent aiPlayer;
 
-    public Camera mainCamera;
     private float gameStartTime;
     
     public enum GameStates
@@ -58,6 +57,7 @@ public class UIGameManager : MonoBehaviour
     private void Start()
     {
         miniGameUI.OnMiniGameButtonClick += ButtonClicked;
+        StartMenuSetUp();
     }
 
     private void OnDestroy()
@@ -69,11 +69,9 @@ public class UIGameManager : MonoBehaviour
     {
         currentState = GameStates.GameStart;
         
-        miniGameUI.ShowHeader("Hummingbird Game");
+        miniGameUI.ShowHeader("Hummingbird\nGame");
         miniGameUI.ShowButton("Start");
-
-        mainCamera.gameObject.SetActive(true);
-        player.agentCamera.gameObject.SetActive(false);
+        
         aiPlayer.agentCamera.gameObject.SetActive(false);
         
         flowerManager.ResetFlowers();
@@ -89,6 +87,8 @@ public class UIGameManager : MonoBehaviour
     {
         currentState = GameStates.GamePlaying;
         gameStartTime = Time.time;
+        miniGameUI.HideHeader();
+        miniGameUI.HideButton();
         player.UnfreezeAgent();
         aiPlayer.UnfreezeAgent();
 
